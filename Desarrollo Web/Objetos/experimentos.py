@@ -1,34 +1,58 @@
-class ArtefactoElectrico():
-	def enceder(self):
-		print("encendido...")
+class Alumno():
+	""" Clase Alumno """
+	# Atributos de clase: son atributos generales para todos los objetos instanciados.
+	cantidad_alumnos = 0
 
-	def apagar(self):
-		print("apagado...")
+	# Constructor: éste método se ejecuta automáticamente al crear un objeto.
+	def __init__(self, nom_alumno, nota_alumno):
+		# Atributos de instancia: son atributos propios o particulares un un objeto.
+		self.nombre	= nom_alumno
+		self.nota =   nota_alumno
+		Alumno.cantidad_alumnos += 1
 
-class Telefono(ArtefactoElectrico):
-	def llamar (self):
-		print ("llamando...")
+	def mostrar_nota(self):
+		print('\nLa nota de ',self.nombre,' es: ',self.nota)
 
-	def colgar (self):
-		print ("finalizando la llamada...")
 
-	def encender(self):
-		print("Cargando listas contactos")
-		print("finalizando la carga")
-		print("encendido")
+	def __str__(self):
+		return 'Nombre: '+self.nombre+'\nNota: '+str(self.nota)
 
-class CamaraFoto(ArtefactoElectrico):
-	def fotografia(self):
-		print("fotografiando...")
+	def __del__(self):
+		print('eliminando objeto de memoria.')
+			
+class ListaAlumno():
+	def __init__(self):	
+		self.__lista_alumnos = list()
 
-class reproductorMp3(ArtefactoElectrico):
-	def reproducir(self):
-		print("reproducir musiquita...")
+	def set_lista(self,alumno):
+		self.__lista_alumnos.append(alumno)
+	
+	def get_lista(self):
+		for a in self.__lista_alumnos:
+			print(a)
+	
+	def __del__(self):
+		print('eliminando objeto lista de memoria.')
 
-	def encender(self):
-		print("Cargando listas favoritas")
-		print("finalizando la carga")
-		print("encendido")
+lista = ListaAlumno()
 
-class SmartPhone(Telefono,reproductorMp3,CamaraFoto):
-	pass
+nombre = "Juan"
+nota   = 8
+mi_alumno = Alumno(nombre,nota)
+
+lista.set_lista(mi_alumno)
+
+nombre = "Alejandra"
+nota   = 9
+mi_alumno2 = Alumno(nombre,nota)
+
+lista.set_lista(mi_alumno2)
+
+nombre = "Mariana"
+nota   = 5
+mi_alumno3 = Alumno(nombre,nota)
+
+lista.set_lista(mi_alumno3)
+
+lista.get_lista()
+
