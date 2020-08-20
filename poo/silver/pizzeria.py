@@ -1,10 +1,27 @@
+import datetime
 class Pizza:
-    def __init__(self, nombre, precio):
-        self.nombre = nombre
-        self.precio = precio
+    def __init__(self, idPizza, idTipo, idTamanio):
+        self.nombre = Menu.__variedades[idPizza]['nombre']
+        self.precio = Menu.__variedades[idPizza]['precio']
+        self.tipo = Menu.__tipos[idTipo]
+        self.tamanio = Menu.__tamanios[idTamanio]
     
     def __repr__(self):
         return f"Pizza {self.nombre} - Precio 8p: {self.precio}"
+
+class Pedido:
+    idPedido = 0
+
+    def __init__(self, nombreCli, pizzas=[]):
+        Pedido.idPedido +=1
+        self.nombreCliente = nombreCli
+        self.pizzasPedido = pizzas
+        self.fecha = datetime.datetime.now().date()
+        self.demora = 20 * len(self.pizzasPedido)
+        self.horaEstimada = str(datetime.datetime.now() + datetime.timedelta(minutes=self.demora))
+
+    def agregarPizza(self, pizza):
+        self.pizzasPedido.append(pizza)
 
 class Menu:
     __tipos = [
@@ -52,7 +69,8 @@ class Menu:
         pfinal = precio + (precio*tipo) + (precio*tamanio)
         print('Precio final:', pfinal)
     
-    def tomarPedido(self):
+    def tomarPedido(self, pedido=None):
+        nombre = input('Ingrese su nombre: ')
         print("---- variedades ----")
         self.mostrarVariedades()
         idPizza = int(input('Escoja su pizza: '))
@@ -64,6 +82,10 @@ class Menu:
         self.mostrarTipos()
         tipo = int(input('Tipo de coccion? : '))
         self.calcularPrecio(Menu.__variedades[idPizza]['precio'], tipo, tamanio)
+        globals()[f"{nombre}{Pedido.idPedido}"] = Pedido(nombre)
+        res = input('Desea algo mas? (s / n): ')
+        if res == 's':
+            return self.tomarPedido()
     
 m = Menu()
 m.tomarPedido()
