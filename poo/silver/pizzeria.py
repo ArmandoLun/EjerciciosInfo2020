@@ -29,9 +29,9 @@ class Pizza:
 
     def __init__(self, idPizza, idTipo, idTamanio):
         self.nombre = Pizza.variedades[idPizza]['nombre']
-        self.precio = Pizza.variedades[idPizza]['precio']
         self.tipo = Pizza.tipos[idTipo]
         self.tamanio = Pizza.tamanios[idTamanio]
+        self.precio = Pizza.variedades[idPizza]['precio'] + (Pizza.variedades[idPizza]['precio'] * Pizza.tipos[idTipo]['precio']) + (Pizza.variedades[idPizza]['precio'] * Pizza.tamanios[idTamanio]['precio'])
     
     def __repr__(self):
         return f"Pizza {self.nombre} {self.tamanio['nombre']} {self.tipo['nombre']}"
@@ -69,10 +69,47 @@ class ListaPedidos:
         lis = self.todosLosPedidos
         pedidos = list()
         for el in lis: pedidos.extend(el.pizzasPedido)
-        print(pedidos)
         pedidos.sort(key=operator.attrgetter("nombre"))
         return max(set(pedidos), key = operator.attrgetter("nombre")).nombre
 
+    def tipoMasPedido(self):
+        lis = self.todosLosPedidos
+        pedidos = list()
+        for el in lis: pedidos.extend(el.pizzasPedido)
+        pedidos.sort(key = lambda x : x.tipo['nombre'])
+        return max(set(pedidos), key = operator.attrgetter("tipo")).tipo['nombre']
+
+    def ingresosPorPeriodo(self):
+        inicio = input('ingrese inicio (anio/mes/dia): ')+'/'
+        fin = input('ingrese fin (anio/mes/dia): ')+'/'
+        inicioP = []
+        finP = []
+        actual = ''
+        for c in inicio:
+            if c != '/':
+                actual += c
+            else:
+                inicioP.append(int(actual))
+                actual=''
+
+        for c in fin:
+            if c != '/':
+                actual += c
+            else:
+                finP.append(int(actual))
+                actual=''
+        inicioP = datetime.date(inicioP[0],inicioP[1],inicioP[2])
+        finP = datetime.date(finP[0],finP[1],finP[2])
+        recaudacion=0
+        for i in ListaPedidos.todosLosPedidos:
+            if(i.fecha > inicioP and i.fecha < finP):
+                for p in i.pizzasPedido:
+                    print(f'pizza {p.nombre} {p.tamanio} {p.tipo}')
+                    recaudacion += p.precio
+        print(f'Recaudacion entre {inicioP} y {finP}: {recaudacion}')
+        """for i in ListaPedidos.todosLosPedidos:
+            if datetime.date(anio,mes,dia) > i.fecha:
+                print(i)"""
 class Menu:
 
     def mostrarTamanios(self):
@@ -92,7 +129,7 @@ class Menu:
             print()
 
     def calcularPrecio(self, precio, tipo, tamanio):
-        pfinal = precio + (precio*tipo) + (precio*tamanio)
+        pfinal = precio + (precio*Pizza.tipos[tipo]['precio']) + (precio*Pizza.tamanios[tamanio]['precio'])
         print('Precio final:', pfinal)
     
     def tomarPedido(self, nombreCli=None):
@@ -124,5 +161,7 @@ class Menu:
 m = Menu()
 lp = ListaPedidos()
 m.tomarPedido()
-m.tomarPedido()
-print("Pizza mas pedida: ",lp.variedadMasPedida())
+#m.tomarPedido()
+#print("Pizza mas pedida: ", lp.variedadMasPedida())
+#print("Tipo mas pedido: ", lp.tipoMasPedido())
+lp.ingresosPorPeriodo()
