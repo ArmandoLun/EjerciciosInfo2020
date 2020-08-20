@@ -1,4 +1,5 @@
 import datetime
+import operator
 class Pizza:
     tipos = [
         {'nombre': 'A molde', 'precio': 0.3},
@@ -33,24 +34,44 @@ class Pizza:
         self.tamanio = Pizza.tamanios[idTamanio]
     
     def __repr__(self):
-        return f"Pizza {self.nombre} - Precio 8p: {self.precio}"
-
+        return f"Pizza {self.nombre} {self.tamanio['nombre']} {self.tipo['nombre']}"
 
 class Pedido:
     idPedido = 0
 
     def __init__(self, nombreCli):
         Pedido.idPedido +=1
+        self.id = Pedido.idPedido
         self.nombreCliente = nombreCli
         self.pizzasPedido = []
         self.fecha = datetime.datetime.now().date()
         self.demora = 0
         self.horaEstimada = 0
+    
+    def __repr__(self):
+        return f"Pedido nº {self.id}: a nombre de {self.nombreCliente}. Ha pedido: {self.pizzasPedido}. Hora estimada: {self.horaEstimada}"
 
     def agregarPizza(self, pizza):
         self.pizzasPedido.append(pizza)
         self.demora += 15
-        self.horaEstimada = str(datetime.datetime.now() + datetime.timedelta(minutes=self.demora))
+        self.horaEstimada = str((datetime.datetime.now() + datetime.timedelta(minutes=self.demora)).time())
+
+class ListaPedidos:
+    todosLosPedidos = []
+
+    def __repr__(self):
+        return f"Pedidos realizados: {ListaPedidos.todosLosPedidos}"
+
+    def agregarPedido(self, pedido):
+        ListaPedidos.todosLosPedidos.append(pedido)
+
+    def variedadMasPedida(self):
+        lis = self.todosLosPedidos
+        pedidos = list()
+        for el in lis: pedidos.extend(el.pizzasPedido)
+        print(pedidos)
+        pedidos.sort(key=operator.attrgetter("nombre"))
+        return max(set(pedidos), key = operator.attrgetter("nombre")).nombre
 
 class Menu:
 
@@ -97,7 +118,11 @@ class Menu:
             return self.tomarPedido(nombre)
         else:
             print('Ud ha realizado el pedido:')
-            print(globals()[f"{nombre}{Pedido.idPedido}"].pizzasPedido)
+            print(globals()[f"{nombre}{Pedido.idPedido}"])
+            lp.agregarPedido(globals()[f"{nombre}{Pedido.idPedido}"])
     
 m = Menu()
+lp = ListaPedidos()
 m.tomarPedido()
+m.tomarPedido()
+print("Pizza mas pedida: ",lp.variedadMasPedida())
