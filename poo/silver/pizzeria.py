@@ -1,5 +1,6 @@
 import datetime
 import operator
+
 class Pizza:
     tipos = [
         {'nombre': 'A molde', 'precio': 0.3},
@@ -65,21 +66,23 @@ class ListaPedidos:
     def agregarPedido(self, pedido):
         ListaPedidos.todosLosPedidos.append(pedido)
 
-    def variedadMasPedida(self):
-        lis = self.todosLosPedidos
+    def crearLista(self):
+        lis = ListaPedidos.todosLosPedidos
         pedidos = list()
         for el in lis: pedidos.extend(el.pizzasPedido)
-        pedidos.sort(key=operator.attrgetter("nombre"))
-        return max(set(pedidos), key = operator.attrgetter("nombre")).nombre
+        return pedidos
+
+    def variedadMasPedida(self):
+        pedidos = self.crearLista()
+        pedidos.sort(key=lambda x : x.nombre)
+        return max(set(pedidos), key = lambda x : x.nombre).nombre
 
     def tipoMasPedido(self):
-        lis = self.todosLosPedidos
-        pedidos = list()
-        for el in lis: pedidos.extend(el.pizzasPedido)
+        pedidos = self.crearLista()
         pedidos.sort(key = lambda x : x.tipo['nombre'])
-        return max(set(pedidos), key = operator.attrgetter("tipo")).tipo['nombre']
-
-    def ingresosPorPeriodo(self):
+        return max(set(pedidos), key = lambda x : x.tipo['nombre']).tipo['nombre']
+        
+    def tomarPeriodo(self):
         inicio = input('ingrese inicio (anio/mes/dia): ')+'/'
         fin = input('ingrese fin (anio/mes/dia): ')+'/'
         inicioP = []
@@ -98,18 +101,29 @@ class ListaPedidos:
             else:
                 finP.append(int(actual))
                 actual=''
-        inicioP = datetime.date(inicioP[0],inicioP[1],inicioP[2])
-        finP = datetime.date(finP[0],finP[1],finP[2])
+        return datetime.date(inicioP[0],inicioP[1],inicioP[2]), datetime.date(finP[0],finP[1],finP[2])
+
+    def ingresosPorPeriodo(self):
+        fechas = self.tomarPeriodo()
         recaudacion=0
         for i in ListaPedidos.todosLosPedidos:
-            if(i.fecha > inicioP and i.fecha < finP):
+            if(i.fecha > fechas[0] and i.fecha < fechas[1]):
                 for p in i.pizzasPedido:
-                    print(f'pizza {p.nombre} {p.tamanio} {p.tipo}')
                     recaudacion += p.precio
-        print(f'Recaudacion entre {inicioP} y {finP}: {recaudacion}')
-        """for i in ListaPedidos.todosLosPedidos:
-            if datetime.date(anio,mes,dia) > i.fecha:
-                print(i)"""
+        print(f'Recaudacion entre {fechas[0]} y {fechas[1]}: {recaudacion}')
+
+    def pedidosPorPeriodo(self):
+        fechas = self.tomarPeriodo()
+        for i in ListaPedidos.todosLosPedidos:
+            if(i.fecha > fechas[0] and i.fecha < fechas[1]):
+                print(f'pedido nº {i.id}', end=' ')
+                monto=0
+                for p in i.pizzasPedido:
+                    monto += p.precio
+                print(f'monto {monto}')
+
+    #def pedidosPorPeriodo(self):
+
 class Menu:
 
     def mostrarTamanios(self):
@@ -161,7 +175,8 @@ class Menu:
 m = Menu()
 lp = ListaPedidos()
 m.tomarPedido()
-#m.tomarPedido()
-#print("Pizza mas pedida: ", lp.variedadMasPedida())
-#print("Tipo mas pedido: ", lp.tipoMasPedido())
+m.tomarPedido()
+print("Pizza mas pedida: ", lp.variedadMasPedida())
+print("Tipo mas pedido: ", lp.tipoMasPedido())
 lp.ingresosPorPeriodo()
+lp.pedidosPorPeriodo()
