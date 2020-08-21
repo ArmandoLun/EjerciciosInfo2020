@@ -1,0 +1,6 @@
+El sistema de informacion gerencial ambiental de zuata, venezuela es un buen ejemplo de como la informacion es de vital importancia para la toma de decisiones, en el caso del sistema propuesto, provee informacion del impacto ambiental ocasionado por las actividades de la industria petrolera.
+
+Consta de dos modulos principales: el primero con un mapa de Venezuela, que indica graficamente el estado del ambiente en dicha nacion.
+el segundo modulo provee al usuario(gerente) de qué actividad se ha realizado en que ubicacion y su impacto, proveido por el modulo anterior.
+
+http://observatoriogeograficoamericalatina.org.mx/egal4/Nuevastecnologias/Sig/01.pdf

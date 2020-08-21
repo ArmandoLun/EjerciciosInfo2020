@@ -1,0 +1,14 @@
+¿Qué datos se necesitaría obtener como entrada y qué proceso se debe realizar para lograr la siguiente lista de información  como salida?
+
+1. Información: Lista de ciudades del mundo con mayor cantidad de CO2 en el aire
+
+2. Información: Reporte de toneladas de basura generadas por persona en América Latina
+
+3. Información: Estadística de suelos sembrados en Argentina
+
+
+1. Como datos se necesita saber la cantidad de CO2 en el aire de cada ciudad del mundo, para poder procesarlos y obtener dicha informacion.
+
+2. Como datos es necesario conocer cuantas personas viven promedio en cada casa, luego conocer cuanto desecha cada casa en promedio, y finalmente se puede procesar y obtener la informacion solicitada.
+
+3. Se necesita conocer cual es la dimension de los terrenos destinados a siembra en Argentina.
