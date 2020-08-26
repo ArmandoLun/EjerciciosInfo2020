@@ -26,3 +26,18 @@ class Movimiento(models.Model):
 
     def __str__(self):
         return "{} {} {} {}".format(self.cuenta.nombre,self.comprobante,self.fecha, self.importe)
+
+class PerfilEmpleado(models.Model):
+    fecha_ingreso = models.DateField()
+    sueldo = models.DecimalField(max_digits=20, decimal_places=2, default=20000)
+
+    def __str__(self):
+        return "{0}-{1}".format(self.fecha_ingreso, self.sueldo)
+
+class GerenteDeCuentas(models.Model):
+    nombre = models.CharField(max_length = 300)
+    cuentas = models.ManyToManyField(Cuenta)
+    perfil = models.OneToOneField(PerfilEmpleado, null=True,on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.nombre
