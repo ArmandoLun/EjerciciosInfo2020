@@ -1,2 +1,3 @@
-nombre = int(input("ingresa un numero"))
-print(type(nombre))
+arreglo = [1,2,3,4,5]
+ola = arreglo.index(5)
+print (ola)
