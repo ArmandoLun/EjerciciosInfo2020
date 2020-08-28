@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %} Listado de Cuentas {% endblock %}
+
+{% block content %}
+<ol>
+	{% for c in cuentas %}
+	<li>{{ c.nombre|upper }} {% if c.email %} -{% endif %} <strong> {{ c.email }} </strong></li>
+	{% endfor %}
+</ol>
+{% endblock %}
