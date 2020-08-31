@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %} cuenta de {{cuenta.nombre}} {% endblock %}
+{% block content %}
+<a href="/cuentas/">VOLVER AL LISTADO</a>
+<h1>Cuenta de <strong>{{cuenta.nombre}}</strong></h1>
+<p>{{cuenta.direccion}} </p>
+<p>{{cuenta.localidad}} </p>
+<p>{{cuenta.email}} </p>
+<table>
+    <thead>
+        <tr>
+            <th>
+                fecha
+            </th>
+            <th>
+                Importe
+            </th>
+            <th>
+                Comprobante
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in movimientos %}
+            <tr>
+                <td>
+                    {{m.fecha}}
+                </td>
+                <td>
+                    {{m.importe}}
+                </td>
+                <td>
+                    {{m.comprobante}}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    {% endblock %}

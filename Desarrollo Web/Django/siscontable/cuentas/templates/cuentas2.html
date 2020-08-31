@@ -5,7 +5,11 @@
 {% block content %}
 <ol>
 	{% for c in cuentas %}
-	<li>{{ c.nombre|upper }} {% if c.email %} -{% endif %} <strong> {{ c.email }} </strong></li>
+	<li>
+		<a href="/cuentas/{{c.id}}">
+			{{ c.nombre|upper }} {% if c.email %} -{% endif %} <strong> {{ c.email }} </strong>
+		</a>
+	</li>
 	{% endfor %}
 </ol>
 {% endblock %}

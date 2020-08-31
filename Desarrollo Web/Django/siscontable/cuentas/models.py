@@ -26,6 +26,10 @@ class Movimiento(models.Model):
 
     def __str__(self):
         return "{} {} {} {}".format(self.cuenta.nombre,self.comprobante,self.fecha, self.importe)
+    
+    @staticmethod
+    def ultimos(idCuenta):
+        return Movimiento.objects.filter(id = idCuenta).order_by('-id')[:3]
 
 class PerfilEmpleado(models.Model):
     fecha_ingreso = models.DateField()
