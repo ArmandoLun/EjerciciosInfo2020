@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.db.models import Q
 # Create your models here.
 
 
@@ -30,6 +30,15 @@ class Movimiento(models.Model):
     @staticmethod
     def ultimos(idCuenta):
         return Movimiento.objects.filter(id = idCuenta).order_by('-id')[:3]
+    
+    @staticmethod
+    def get_with(query, limit):
+        q1 = Q(cuenta__nombre__contains=query)
+        q2 = Q(comprobante__contains = query)
+        queryset = Movimiento.objects.filter(q1|q2)
+        if limit:
+            return queryset[:limit]
+        return queryset
 
 class PerfilEmpleado(models.Model):
     fecha_ingreso = models.DateField()

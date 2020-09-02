@@ -22,4 +22,5 @@ urlpatterns = [
     path('hoy/', views.hoy),
     path('cuentas/', views.cuentas),
     path('cuentas/<int:id>', views.cuentasIndiv),
+    path('busqueda/', views.busqueda),
 ]
