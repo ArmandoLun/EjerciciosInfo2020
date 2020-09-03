@@ -28,8 +28,8 @@ class Movimiento(models.Model):
         return "{} {} {} {}".format(self.cuenta.nombre,self.comprobante,self.fecha, self.importe)
     
     @staticmethod
-    def ultimos(idCuenta):
-        return Movimiento.objects.filter(id = idCuenta).order_by('-id')[:3]
+    def ultimos():
+        return Movimiento.objects.order_by('-id')[:3]
     
     @staticmethod
     def get_with(query, limit):

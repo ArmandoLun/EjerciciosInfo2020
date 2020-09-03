@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from cuentas.models import Cuenta, Movimiento
-from cuentas.forms import SearchForm
+from cuentas.forms import SearchForm, MovimientoForm
 
 # Create your views here.
 def hoy(request):
@@ -33,3 +33,13 @@ def busqueda(request):
 	else:
 		form = SearchForm()
 	return render(request, 'busqueda.html', {'form':form})
+
+def movimientos(request):
+	if request.method == 'POST':
+		form = MovimientoForm(request.POST)
+		if form.is_valid():
+			movimiento = form.save()
+			return render(request, 'movimientos.html',{'movimientos':Movimiento.ultimos()})
+	else:
+		form = MovimientoForm()
+		return render(request, 'get_movimientos.html', {'form':form})
