@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Index</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <h1>All posts:</h1>
+        <ul>
+            {% for post in posts %}
+            <li>
+                <img src="{{ post.img.url }}" alt="{{post.title}}"> 
+                <p><strong>{{post.title}}</strong></p>
+                <p>{{post.content}}</p>
+                <h5>Written by {{post.author}} on {{post.date}}</h5>
+                {% if user == post.author %}
+                    <p style='background-color: brown;'>Edit</p>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h1>You need to <a href='/login'>Login</a> to see all posts.</h1>
+    {% endif %}
+</body>
+</html>
